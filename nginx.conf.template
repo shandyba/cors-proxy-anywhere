@@ -2,23 +2,41 @@ server {
     listen 80;
 
     location / {
-        proxy_pass ${TARGET};
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        set $proxy_scheme ""; 
+        set $proxy_host ""; 
+        set $proxy_target ${PROXY_TO}; 
+        if ($proxy_target ~* (?<proxy_scheme>http|https)://(?<proxy_host>[^/]+)) {
+            set $proxy_scheme $proxy_scheme;
+            set $proxy_host $proxy_host;
+        }
+        
+        proxy_set_header Host $proxy_host;
+        proxy_set_header Origin $proxy_target;
+        proxy_set_header Referer $proxy_target$request_uri;
+        
+        proxy_ssl_server_name on;
+        proxy_pass ${PROXY_TO};
+        proxy_cookie_domain ~\.([a-z]+\.[a-z]+)$ .$host;
 
         if ($request_method = 'OPTIONS') {
-            # Pre-flight request
             add_header 'Access-Control-Allow-Origin' '*';
             add_header 'Access-Control-Allow-Methods' '*';
             add_header 'Access-Control-Allow-Headers' '*';
             add_header 'Access-Control-Max-Age' 1728000;
-            add_header 'Content-Type' 'text/plain; charset=utf-8';
             add_header 'Content-Length' 0;
             return 204;
         }
 
+        proxy_hide_header Report-To;
+        proxy_hide_header X-Frame-Options;
+        proxy_hide_header Referrer-Policy;
+        proxy_hide_header Feature-Policy; 
+        proxy_hide_header Permissions-Policy;
+        proxy_hide_header Strict-Transport-Security;
+        proxy_hide_header Content-Security-Policy;
+        proxy_hide_header Content-Security-Policy-Report-Only;
+        proxy_hide_header Cross-Origin-Opener-Policy;
+        proxy_hide_header Access-Control-Allow-Origin;
         add_header 'Access-Control-Allow-Origin' '*' always;
     }
 }

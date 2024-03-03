@@ -7,4 +7,4 @@ RUN apk add --no-cache gettext
 COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
 
 # 使用环境变量替换配置文件中的变量，并重启 Nginx
-CMD envsubst '$TARGET' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+CMD envsubst '$PROXY_TO' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
