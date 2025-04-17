@@ -2,7 +2,7 @@
 
 Get rid of CORS errors in local development quick. Use Nginx and Docker to set up a simple reverse proxy.
 
-A fork of https://github.com/idootop/cors-proxy-anywhere, with increased max body size to 100mb
+A fork of https://github.com/idootop/cors-proxy-anywhere, with increased max body size to **100mb**
 
 ![](demo.webp)
 
