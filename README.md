@@ -8,7 +8,7 @@ A fork of https://github.com/idootop/cors-proxy-anywhere, with increased max bod
 
 ## ⚡️ Get Started
 
-[![Docker Image Version](https://img.shields.io/docker/v/idootop/cors-proxy-anywhere?color=%23086DCD&label=docker%20image)](https://hub.docker.com/r/shandyba/cors-proxy-anywhere)
+[![Docker Image Version](https://img.shields.io/docker/v/shandyba/cors-proxy-anywhere?color=%23086DCD&label=docker%20image)](https://hub.docker.com/r/shandyba/cors-proxy-anywhere)
 
 ```shell
 # Set up a proxy to connect your site on http://localhost:3000 with https://google.com
